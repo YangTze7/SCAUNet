@@ -22,7 +22,7 @@ device = torch.device("cuda")
 import glob
 
 import numpy as np
-from torchsat.transforms import transforms_cls, transforms_det, transforms_seg
+from torchsat.transforms import transforms_det
 
 train_transform = transforms_seg.Compose([
     transforms_seg.RandomVerticalFlip(p=0.5),

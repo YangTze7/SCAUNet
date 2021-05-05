@@ -60,7 +60,7 @@ def write_img(im_data,filename):
 
     del dataset
 
-train_path = "/Train"
+train_path = "/content/Train"
 for parent,tile,_ in os.walk(train_path):
     tiles = [os.path.join(train_path,p) for p in tile]
     break
@@ -84,7 +84,7 @@ for tile in tqdm(tiles):
     tmp_list.append(s2_path + lc8_path+sar_path+viirs_path)
     gt_list.append(os.path.join(tile,"groundTruth.tif"))
 
-save_ckpt_dir = "/train_data"
+save_ckpt_dir = "/content/train_data"
 if not os.path.exists(save_ckpt_dir):
     os.makedirs(save_ckpt_dir)
 
