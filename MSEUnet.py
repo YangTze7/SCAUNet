@@ -36,7 +36,7 @@ class DoubleConv(nn.Module):
         super(DoubleConv, self).__init__()
         self.conv = nn.Sequential(
             nn.Conv2d(in_ch, out_ch, 3, padding=1),
-            nn.BatchNorm2d(out_ch), #Ìí¼ÓÁËBN²ã
+            nn.BatchNorm2d(out_ch), #ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½BNï¿½ï¿½
             nn.ReLU(inplace=True),
             nn.Conv2d(out_ch, out_ch, 3, padding=1),
             nn.BatchNorm2d(out_ch),
@@ -48,7 +48,7 @@ class DoubleConv(nn.Module):
 
 class MSEUnet(nn.Module):
     def __init__(self, in_ch, out_ch):
-        super(Unet, self).__init__()
+        super(MSEUnet, self).__init__()
         self.pool = nn.MaxPool2d(2)
         self.conv1 = DoubleConv(in_ch, 64)
         self.pool1 = nn.MaxPool2d(2)
@@ -59,7 +59,7 @@ class MSEUnet(nn.Module):
         self.conv4 = DoubleConv(256, 512)
         self.pool4 = nn.MaxPool2d(2)
         self.conv5 = DoubleConv(512, 1024)
-        # Äæ¾í»ý£¬Ò²¿ÉÒÔÊ¹ÓÃÉÏ²ÉÑù(±£Ö¤k=stride,stride¼´ÉÏ²ÉÑù±¶Êý)
+        # ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½(ï¿½ï¿½Ö¤k=stride,strideï¿½ï¿½ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
         self.up6 = nn.ConvTranspose2d(1024, 512, 2, stride=2)
         self.conv6 = DoubleConv(1024, 512)
         self.up7 = nn.ConvTranspose2d(512, 256, 2, stride=2)
@@ -69,12 +69,12 @@ class MSEUnet(nn.Module):
         self.up9 = nn.ConvTranspose2d(128, 64, 2, stride=2)
         self.conv9 = DoubleConv(128, 64)
         self.conv10 = nn.Conv2d(64, out_ch, 1)
-        self.conv1_dilation = nn.Conv2d(2048, 256, 1, stride=1, padding=0, bias=False, dilation=1)  # dilation¾ÍÊÇ¿Õ¶´ÂÊ£¬¼´¼ä¸ô
-        self.conv2_dilation = nn.Conv2d(2048, 256, 2, stride=1, padding=2, bias=False, dilation=2)  # dilation¾ÍÊÇ¿Õ¶´ÂÊ£¬¼´¼ä¸ô
-        self.conv4_dilation = nn.Conv2d(2048, 256, 4, stride=1, padding=4, bias=False, dilation=4)  # dilation¾ÍÊÇ¿Õ¶´ÂÊ£¬¼´¼ä¸ô
+        self.conv1_dilation = nn.Conv2d(2048, 256, 1, stride=1, padding=0, bias=False, dilation=1)  # dilationï¿½ï¿½ï¿½Ç¿Õ¶ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        self.conv2_dilation = nn.Conv2d(2048, 256, 2, stride=1, padding=2, bias=False, dilation=2)  # dilationï¿½ï¿½ï¿½Ç¿Õ¶ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        self.conv4_dilation = nn.Conv2d(2048, 256, 4, stride=1, padding=4, bias=False, dilation=4)  # dilationï¿½ï¿½ï¿½Ç¿Õ¶ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         self.global_pool = nn.AdaptiveAvgPool2d((1, 1)) 
         self.upsample = nn.Upsample(scale_factor=7, mode='bicubic', align_corners=True) 
-        self.conv_c = nn.Conv2d(2816, 1024, 1, stride=1, padding=0, bias=False, dilation=1)  # dilation¾ÍÊÇ¿Õ¶´ÂÊ£¬¼´¼ä¸ô
+        self.conv_c = nn.Conv2d(2816, 1024, 1, stride=1, padding=0, bias=False, dilation=1)  # dilationï¿½ï¿½ï¿½Ç¿Õ¶ï¿½ï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         self.upsample1 = nn.Upsample(scale_factor=2, mode='bicubic', align_corners=True) 
 
         self.R1 = nn.Sequential(
